@@ -8,10 +8,12 @@ const { param } = require('./users.controller.js');
 var CryptoJS = require("crypto-js");
 const { Sequelize } = require('sequelize');
 var jwt_decode = require('jwt-decode');
+var helper = require('_helpers/helper');
 const { v4: uuidv4 } = require('uuid');
 module.exports = {
     authenticate,
-    getAll,
+
+  //  getAll,
     getById,
     create,
     update,
@@ -19,24 +21,54 @@ module.exports = {
     forget,
     resetPassword
 };
-
+var return_data = {
+    status: false
+    , message: ""
+    , response: {
+    }
+    , error: null
+};
 async function authenticate({ username, password }) {
+    
     const user = await db.User.scope('withHash').findOne({ where: { username } });
 
     if (!user || !(await bcrypt.compare(password, user.hash)))
         throw 'Username or password is incorrect';
 
     // authentication successful
-    const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '7d' });
+     const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '7d' });
+    
+    //router.get('/', authorize(), getAll);
+   
+   // return ;
     return { ...omitHash(user.get()), token };
-    router.get('/', authorize(), getAll);
-
-
+    
 }
 
-async function getAll() {
-    return await db.User.findAll();
-}
+var return_data = {
+    status: false
+    , message: ""
+    , response: {
+    }
+    , error: null
+};
+
+// async function getAll() {
+//     //var token_data = helper.Get_Token_Data(req.headers['authorization']);
+//    // console.log(token_data)
+//    res.header('Content-Type', 'application/json');
+//    var token_data = helper.Get_Token_Data(req.headers['authorization']);
+//    console.log(token_data)
+//    await models.User.findAll({
+//     where: { id: token_data.id },
+  
+// }).then(data => {
+//     console.log(data)
+//     db_restult = data;
+// });
+// res.send(JSON.stringify(return_data));
+// //    return await db.User.findAll();
+// }
 
 async function getById(id) {
     return await getUser(id);

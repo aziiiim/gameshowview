@@ -19,6 +19,7 @@ router.post('/reset',_resetPassword);
 
 module.exports = router;
 
+
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
         username: Joi.string().required(),
@@ -56,10 +57,12 @@ function getAll(req, res, next) {
         .then(
             
             users => res.json(users)
+            
         
         
         )
         .catch(next);
+       
 }
 
 function getCurrent(req, res, next) {

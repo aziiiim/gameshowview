@@ -28,6 +28,7 @@ app.get('/login', (req, res) => res.render('login'));
 app.get('/signup', (req, res) => res.render('signup'));
 app.get('/forget', (req, res) => res.render('forget'));
 app.get('/resetpassword', (req, res) => res.render('resetPassword'));
+app.get('/usersTable', (req, res) => res.render('usersTable'));
 
 app.post('/pay', (req, res) => {
     const create_payment_json = {
@@ -36,8 +37,8 @@ app.post('/pay', (req, res) => {
           "payment_method": "paypal"
       },
       "redirect_urls": {
-          "return_url": "http://localhost:3000/success",
-          "cancel_url": "http://localhost:3000/cancel"
+          "return_url": "http://localhost:4000/success",
+          "cancel_url": "http://localhost:4000/cancel"
       },
       "transactions": [{
           "item_list": {
@@ -103,5 +104,5 @@ app.post('/pay', (req, res) => {
 app.use(errorHandler);
 
 // start server
-const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 3000;
+const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;
 app.listen(port, () => console.log('Server listening on port ' + port));
